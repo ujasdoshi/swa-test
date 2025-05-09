@@ -3,35 +3,139 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Azure Static Web App</title>
+  <title>Fancy Text Submit</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f9fc;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 600px;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      margin-top: 0;
       text-align: center;
-      padding-top: 100px;
+      color: #333;
     }
-    input {
-      padding: 8px;
+
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 12px;
       font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+      margin-bottom: 15px;
+      transition: border 0.2s;
     }
-    button {
-      padding: 8px 12px;
+
+    textarea:focus {
+      border-color: #4a90e2;
+      outline: none;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .buttons button {
+      flex: 1;
+      padding: 10px 15px;
+      background: #e7eaf6;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .buttons button:hover {
+      background: #d4def5;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background: #4a90e2;
+      border: none;
+      color: white;
       font-size: 16px;
-      margin-left: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .submit-btn:hover {
+      background: #357ab8;
+    }
+
+    .output {
+      margin-top: 25px;
+      padding: 15px;
+      background: #f1f4fa;
+      border-left: 4px solid #4a90e2;
+      border-radius: 6px;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
-  <h1>Azure Static Web App</h1>
-  <input type="text" id="textInput" placeholder="Enter something..." />
-  <button onclick="handleClick()">Submit</button>
+  <div class="container">
+    <h2>Submit Your Text</h2>
+    <textarea id="textInput" placeholder="Type something here..."></textarea>
+    
+    <div class="buttons">
+      <button type="button" onclick="formatText('bold')"><b>Bold</b></button>
+      <button type="button" onclick="formatText('italic')"><i>Italic</i></button>
+      <button type="button" onclick="clearText()">Clear</button>
+    </div>
 
-  <p id="output"></p>
+    <button class="submit-btn" onclick="submitText()">Submit</button>
+
+    <div class="output" id="output" style="display: none;"></div>
+  </div>
 
   <script>
-    function handleClick() {
-      const input = document.getElementById("textInput").value;
-      document.getElementById("output").textContent = "You entered: " + input;
+    function formatText(type) {
+      const textarea = document.getElementById('textInput');
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = textarea.value;
+      let newText;
+
+      if (type === 'bold') {
+        newText = text.substring(0, start) + '**' + text.substring(start, end) + '**' + text.substring(end);
+      } else if (type === 'italic') {
+        newText = text.substring(0, start) + '*' + text.substring(start, end) + '*' + text.substring(end);
+      }
+
+      textarea.value = newText;
+    }
+
+    function clearText() {
+      document.getElementById('textInput').value = '';
+      document.getElementById('output').style.display = 'none';
+    }
+
+    function submitText() {
+      const input = document.getElementById('textInput').value;
+      const outputDiv = document.getElementById('output');
+      outputDiv.textContent = input;
+      outputDiv.style.display = 'block';
     }
   </script>
 </body>
